@@ -8,6 +8,11 @@ const productController = {
 
     return res.status(201).json(result);
   },
+  async getAll(_req: Request, res: Response) {
+    const result = await productService.getAll();
+
+    return res.status(200).json(result);
+  },
 };
 
 export default productController;

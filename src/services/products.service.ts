@@ -7,6 +7,11 @@ const productService = {
 
     return result;
   },
+  async getAll(): Promise<Product[]> {
+    const result = await productModel.getAll();
+
+    return result;
+  },
 };
 
 export default productService;
