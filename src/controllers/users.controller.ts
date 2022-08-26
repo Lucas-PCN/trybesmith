@@ -9,6 +9,12 @@ const userController = {
     const token = userService.createToken(user.username);
     return res.status(201).json({ token }); 
   },
+  async login(req: Request, res: Response) {
+    const { username } = req.body;
+
+    const token = userService.createToken(username);
+    return res.status(200).json({ token });
+  },
 };
 
 export default userController;

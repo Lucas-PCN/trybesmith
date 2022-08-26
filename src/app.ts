@@ -35,4 +35,12 @@ app.get(
   orderController.getAll,
 );
 
+app.post(
+  '/login',
+  validateUser.username,
+  validateUser.password,
+  validateUser.checkUserAndPassword,
+  userController.login,
+);
+
 export default app;

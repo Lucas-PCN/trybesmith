@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import userService from '../services/users.service';
 
 const validateUser = {
   username: (req: Request, res: Response, next: NextFunction) => {
@@ -62,6 +63,16 @@ const validateUser = {
         .json({ message: '"password" length must be at least 8 characters long' });
     }
   
+    next();
+  },
+  checkUserAndPassword: async (req: Request, res: Response, next: NextFunction) => {
+    const { username, password } = req.body;
+    const findUser = await userService.findUser(username);
+
+    if (!findUser || findUser.password !== password) {
+      return res.status(401).json({ message: 'Username or password invalid' });
+    }
+
     next();
   },
 };

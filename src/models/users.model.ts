@@ -1,5 +1,5 @@
-import { ResultSetHeader } from 'mysql2';
-import { User } from '../interfaces/user.interface';
+import { ResultSetHeader, RowDataPacket } from 'mysql2';
+import { Credentials, User } from '../interfaces/user.interface';
 import connection from './connection';
 
 const userModel = {
@@ -8,6 +8,13 @@ const userModel = {
     const query = `INSERT INTO Trybesmith.Users (username, classe, level, password)
     VALUES (?, ?, ?, ?);`;
     await connection.execute<ResultSetHeader>(query, [username, classe, level, password]);
+  },
+  async findUser(username: string): Promise<Credentials> {
+    const query = 'SELECT username, password FROM Trybesmith.Users WHERE username=?';
+    const result = await connection.execute<RowDataPacket[]>(query, [username]);
+
+    const [[row]] = result;
+    return row as Credentials;
   },
 };
 
