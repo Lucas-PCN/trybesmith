@@ -7,6 +7,15 @@ const orderService = {
 
     return result;
   },
+  async create(userId: number): Promise<number> {
+    const orderId = await orderModel.create(userId);
+
+    return orderId;
+  },
+  async add(userId: number) {
+    const result = orderModel.add(userId);
+    return result;
+  },
 };
 
 export default orderService;

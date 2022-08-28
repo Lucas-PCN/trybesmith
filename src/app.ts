@@ -43,4 +43,11 @@ app.post(
   userController.login,
 );
 
+app.post(
+  '/orders',
+  validateProduct.validateToken,
+  validateProduct.bodyProduct,
+  orderController.create,
+);
+
 export default app;

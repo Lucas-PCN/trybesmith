@@ -1,6 +1,7 @@
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { User, Credentials } from '../interfaces/user.interface';
+import { Response } from 'express';
+import { User, Credentials, Id } from '../interfaces/user.interface';
 import userModel from '../models/users.model';
 
 dotenv.config();
@@ -17,6 +18,20 @@ const userService = {
   },
   async findUser(username: string): Promise<Credentials> {
     const result = await userModel.findUser(username);
+
+    return result;
+  },
+  readToken(token: string, res: Response): JwtPayload {
+    let user;
+    try {
+      user = jwt.verify(token, SECRET);
+      return user as JwtPayload;
+    } catch (error) {
+      return res.status(401).json({ message: 'Invalid token' });
+    }
+  },
+  async getId(data: string): Promise<Id | undefined> {
+    const result = await userModel.getId(data);
 
     return result;
   },

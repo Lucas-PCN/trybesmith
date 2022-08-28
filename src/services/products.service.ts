@@ -12,6 +12,9 @@ const productService = {
 
     return result;
   },
+  async updateOrder(orderId: number, productId: number): Promise<void> {
+    await productModel.updateOrder(orderId, productId);
+  },
 };
 
 export default productService;

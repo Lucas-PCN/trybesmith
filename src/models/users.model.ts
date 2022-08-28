@@ -1,5 +1,5 @@
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
-import { Credentials, User } from '../interfaces/user.interface';
+import { Credentials, User, Id } from '../interfaces/user.interface';
 import connection from './connection';
 
 const userModel = {
@@ -15,6 +15,15 @@ const userModel = {
 
     const [[row]] = result;
     return row as Credentials;
+  },
+  async getId(username:string): Promise<Id> {
+    const result = await connection.query<RowDataPacket[]>(
+      'SELECT id FROM Trybesmith.Users WHERE username=?',
+      [username],
+    );
+
+    const [[row]] = result;
+    return row as Id;
   },
 };
 
