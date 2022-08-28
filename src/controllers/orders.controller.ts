@@ -1,13 +1,8 @@
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 import { Request, Response } from 'express';
 import orderService from '../services/orders.service';
 import productService from '../services/products.service';
 import userService from '../services/users.service';
 import { Id } from '../interfaces/user.interface';
-
-dotenv.config();
-const SECRET = 'randomsecret';
 
 const orderController = {
   async getAll(_req: Request, res: Response) {
@@ -20,8 +15,7 @@ const orderController = {
     const token = req.headers.authorization;
 
     if (token) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const { data }: any = jwt.verify(token, SECRET);
+      const { data } = userService.readToken(token, res);
       const { id } = await userService.getId(data.username) as Id;
       const orderId = await orderService.add(id as number);
 
